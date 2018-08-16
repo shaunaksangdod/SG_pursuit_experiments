@@ -725,7 +725,7 @@ public class APDMInputFormat {
 			e.printStackTrace();
 		}
 
-		APDMInputFormat.generateAPDMFile_spammer(null,"MultiVarDataSet",Edges,null,"/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/someFile.txt",attribute_names,8,null,attributes,userID);
+		APDMInputFormat.generateAPDMFile_spammer(null,"MultiVarDataSet",Edges,null,"/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/someFile.txt",attribute_names,8,null,attributes,userID);
 		// shaunak 08-15-2018
 	}
 }
