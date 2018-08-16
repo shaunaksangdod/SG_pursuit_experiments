@@ -660,12 +660,12 @@ public class APDMInputFormat {
 		String line = "";
 		String cvsSplitBy = ",";
 		ArrayList<Edge> Edges = new ArrayList<Edge>();
-		String attrFile= "/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/relation_2_user_attributes.csv";
+		String attrFile= "/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/relation_2_user_attributes.csv";
 		File f = null;
 
 		long fileLen = 0;
 		try {
-			br = new BufferedReader(new FileReader("/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/relation_2_user_attributes.csv"));
+			br = new BufferedReader(new FileReader("/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/relation_2_user_attributes.csv"));
 			f = new File(attrFile);
 			fileLen = f.length();
 		} catch (FileNotFoundException e) {
@@ -682,7 +682,7 @@ public class APDMInputFormat {
 		// Get UserId and attributes
 		int iteration = 0, i = 0;
 		try {
-			br = new BufferedReader(new FileReader("/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/relation_2_user_attributes.csv"));
+			br = new BufferedReader(new FileReader("/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/relation_2_user_attributes.csv"));
 
 			while ((line = br.readLine()) != null) {
 				iteration++;
@@ -708,7 +708,7 @@ public class APDMInputFormat {
 		}
 		// Get Edges
 		try {
-			br = new BufferedReader(new FileReader("/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/relation_2_aa.csv"));
+			br = new BufferedReader(new FileReader("/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/relation_2_aa.csv"));
 			int count = 0;
 			while ((line = br.readLine()) != null) {
 				iteration++;

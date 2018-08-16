@@ -1119,8 +1119,8 @@ public class S2GraphMPUnitTest {
         String inRoot = "/data/sg-pursuit-data/data/DenseGraph/DenseSubgraph_APDM/VaryingNumOfAttributes/";
         String outRoot = "/data/sg-pursuit-data/outputs/CoherentDenseSGDetection/"; // CoherentDenseSGDetection
         */
-        String inRoot = "/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/somePackage/";
-        String outRoot = "/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/somePackage/"; // CoherentDenseSGDetection
+        String inRoot = "/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/somePackage/";
+        String outRoot = "/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/base/somePackage/"; // CoherentDenseSGDetection
         for(int clusterSize:new int[]{30}){
             for(double p_out:new double[]{0.1}){
                 for(int numTrueFeat:numTrueFeats){
