@@ -141,7 +141,7 @@ public class HeadApprox {
             System.out.println("B : " + B + " C : " + this.C + " delta : " + this.delta + " cH : " + this.cH);
             // ------------------------------------------------------------------------------------
         }
-        this.bestForest = run();
+        this.bestForest = run();//not debugging here
         if (this.checkEqu9Valid(b)) {
             this.valid = true;
         } else {

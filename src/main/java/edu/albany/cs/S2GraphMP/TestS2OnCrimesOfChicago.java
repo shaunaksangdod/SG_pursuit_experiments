@@ -2,14 +2,18 @@ package edu.albany.cs.S2GraphMP;
 
 import edu.albany.cs.base.ConnectedComponents;
 import edu.albany.cs.base.PreRec;
+import edu.albany.cs.fastPCST.PairingHeap;
 import edu.albany.cs.graph.CrimesOfChicagoGraph;
 import edu.albany.cs.graph.Graph;
 import edu.albany.cs.graph.Graphs;
 import edu.albany.cs.scoreFuncs.EMSXYScore;
+import edu.albany.cs.scoreFuncs.ElevatedMeanScan;
 import edu.albany.cs.scoreFuncs.Function;
 import edu.albany.cs.scoreFuncs.Stat;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -77,7 +81,7 @@ public class TestS2OnCrimesOfChicago {
     }
 
     private boolean run() {
-        Function func = new EMSXYScore(data.graphMatrix);
+        Function func = new ElevatedMeanScan(data.graphMatrix);
         ConnectedComponents cc = new ConnectedComponents(data.getAdj());
         System.out.println("isConnected: " + cc.checkConnectivity());
         Graph graph = new CrimesOfChicagoGraph(data.n, data.p, data.edges, data.edgeCosts, data.trueFeatures, data.trueNodes);
@@ -110,7 +114,9 @@ public class TestS2OnCrimesOfChicago {
             System.out.println("random val: " + val);
         }
         //Utils.stop();
-        S2GraphMPDebug s2GraphMP = new S2GraphMPDebug(graph, k, s, 1, func);
+
+        S2GraphMP s2GraphMP = new S2GraphMP(graph, k, s, 1, func);
+        //System.out.println("In");
         PreRec preRec_nodes = new PreRec(s2GraphMP.psiX, data.trueNodes);
         PreRec preRec_features = new PreRec(s2GraphMP.psiY, data.trueFeatures);
         System.out.println("preRec of nodes: " + preRec_nodes);
@@ -133,7 +139,26 @@ public class TestS2OnCrimesOfChicago {
     private Data readDataFromFile() {
         Data data = new Data();
         int index = 1;
+        int i_map = 0;
+        BufferedReader br = null;
+        String cvsSplitBy = ",";
+        String line_mapping = "";
+        HashMap<Integer,Integer> NodeMapping = new HashMap<Integer, Integer>();
         try {
+            br = new BufferedReader(new FileReader("/Users/shaun/Downloads/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/unique_users_list_relation_xaa.csv"));
+            while ((line_mapping = br.readLine()) != null) {
+                if(i_map == 0){
+                    i_map++;
+                    continue;
+                }
+                String[] mapping = line_mapping.split(cvsSplitBy);
+                int ind = Integer.parseInt(mapping[0]);
+                int node = Integer.parseInt(mapping[1]);
+                if(!NodeMapping.containsKey(node)){
+                    NodeMapping.put(node,ind);
+                }
+
+            }
             for (String line : Files.readAllLines(Paths.get(filePath))) {
                 if (index == 1) {
                     data.n = Integer.parseInt(line.trim().split(" ")[0]);
@@ -141,35 +166,35 @@ public class TestS2OnCrimesOfChicago {
                     data.graphMatrix = new double[data.n][data.p];
                     System.out.println(data.n + " " + data.p);
                     index++;
-                } else if (index >= 2 && index <= (data.n + 1)) {
+                } else if (index >= 2 && index <= (data.n)) {
                     int i = 0;
                     for (String count : line.trim().split(" ")) {
-                        data.graphMatrix[index - 2][i++] = Double.parseDouble(count);
+                        data.graphMatrix[index - 2][i++] = Double.parseDouble(count); //<- W
                         if (data.maximalValInMat < Double.parseDouble(count)) {
                             data.maximalValInMat = Double.parseDouble(count);
                         }
                     }
                     index++;
-                } else if ((index >= (data.n + 2)) && (index <= (data.n + 2))) {
+                } else if ((index >= (data.n + 1)) && (index <= (data.n + 1))) {
                     data.numOfEdges = Integer.parseInt(line.trim());
                     data.edges = new ArrayList<>();
                     data.edgeCosts = new ArrayList<>();
                     System.out.println(data.numOfEdges);
                     index++;
-                } else if ((index >= (data.n + 3)) && (index <= (data.n + 3 + data.numOfEdges - 1))) {
+                } else if ((index >= (data.n + 2)) && (index <= (data.n + 2 + data.numOfEdges - 1))) {
                     int endpoint0 = Integer.parseInt(line.trim().split(" ")[0]);
                     int endpoint1 = Integer.parseInt(line.trim().split(" ")[1]);
-                    Integer[] edge = new Integer[]{endpoint0, endpoint1};
+                    Integer[] edge = new Integer[]{NodeMapping.get(endpoint0), NodeMapping.get(endpoint1)};
                     data.edges.add(edge);
                     data.edgeCosts.add(1.0D);
                     index++;
-                } else if ((index >= (data.n + data.numOfEdges + 3)) && (index <= (data.n + data.numOfEdges + 3))) {
+                } else if ((index >= (data.n + data.numOfEdges + 2)) && (index <= (data.n + data.numOfEdges + 2))) {
                     data.trueNodes = new HashSet<>();
                     for (String node : line.trim().split(" ")) {
-                        data.trueNodes.add(Integer.parseInt(node));
+                        data.trueNodes.add(NodeMapping.get(Integer.parseInt(node)));
                     }
                     index++;
-                } else if ((index >= (data.n + data.numOfEdges + 4)) && (index <= (data.n + data.numOfEdges + 4))) {
+                } else if ((index >= (data.n + data.numOfEdges + 3)) && (index <= (data.n + data.numOfEdges + 3))) {
                     data.trueFeatures = new HashSet<>();
                     for (String word : line.trim().split(" ")) {
                         data.trueFeatures.add(Integer.parseInt(word));
@@ -331,9 +356,9 @@ public class TestS2OnCrimesOfChicago {
     }
 
     public static void main(String args[]) {
-        String rootPath = "data/CrimesOfChicago/graph/";
-        String filePath = rootPath + "processed_ASSAULT_test_case_1.txt";
-        final String outFilePath = "./outputs/CrimesOfChicago/result_2010_single_y.txt";
+        String rootPath = "/Users/shaun/Downloads/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/";
+        String filePath = rootPath + "spammers_relation_xaa.txt";
+        final String outFilePath = "/Users/shaun/Downloads/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/result_2010_single_y.txt";
         int k = 107;//2269
         int s = 16;//
         new TestS2OnCrimesOfChicago(filePath, outFilePath, k, s, 0.0D);

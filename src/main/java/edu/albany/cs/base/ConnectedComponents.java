@@ -3,6 +3,7 @@ package edu.albany.cs.base;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ConnectedComponents is for computing the number of connected components of
@@ -203,17 +204,23 @@ public class ConnectedComponents {
             System.out.println("number of connected components is : " + this.computeCCSubGraph(V));
             // update the graph and let the graph to be connected
             int count = 0;
-            ArrayList<Integer> largestConnecteComponent = this.components.get(0);
+            //ArrayList<Integer> largestConnecteComponent = this.components.get(0);
+            int[] intV = Arrays.stream(V).mapToInt(Integer::intValue).toArray();
+            int[] lcc = this.findLargestConnectedComponet(intV);
+            List<Integer> largestConnecteComponent = Arrays.stream(lcc).boxed().collect(Collectors.toList());
             for (ArrayList<Integer> arr : this.components) {
-                if (count == 0) {
+                /*if (count == 0) {
                     count++;
                     continue;
-                }
+                }*/
                 int root = largestConnecteComponent.get(count);
                 int currentNeedToConnect = arr.get(0);
                 this.graphAdjList.get(root).add(currentNeedToConnect);
                 this.graphAdjList.get(currentNeedToConnect).add(root);
                 count++;
+                if(count>= largestConnecteComponent.size()){
+                    count = 1;
+                }
             }
             System.out.println(
                     "after update the graph structure, the number of connected components in graph is : "

@@ -1018,7 +1018,7 @@ public class S2GraphMPUnitTest {
 		FileWriter fstream;
 		System.out.println(line);		
 		try {
-			fstream = new FileWriter("/Users/nayanikabhargava/Downloads/SG-Pursuit-master/src/main/java/edu/albany/cs/base/somePackage/log.txt", true);
+			fstream = new FileWriter("log.txt", true);
 			fstream.write(line + "\r\n");
 			fstream.close();
 		} catch (IOException e) {
