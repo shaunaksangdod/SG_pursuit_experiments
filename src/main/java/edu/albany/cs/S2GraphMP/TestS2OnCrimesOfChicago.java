@@ -145,7 +145,7 @@ public class TestS2OnCrimesOfChicago {
         String line_mapping = "";
         HashMap<Integer,Integer> NodeMapping = new HashMap<Integer, Integer>();
         try {
-            br = new BufferedReader(new FileReader("/Users/shaun/Downloads/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/unique_users_list_relation_xaa.csv"));
+            br = new BufferedReader(new FileReader("/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/unique_users_list_relation_xaa.csv"));
             while ((line_mapping = br.readLine()) != null) {
                 if(i_map == 0){
                     i_map++;
@@ -356,9 +356,9 @@ public class TestS2OnCrimesOfChicago {
     }
 
     public static void main(String args[]) {
-        String rootPath = "/Users/shaun/Downloads/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/";
+        String rootPath = "/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/";
         String filePath = rootPath + "spammers_relation_xaa.txt";
-        final String outFilePath = "/Users/shaun/Downloads/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/result_2010_single_y.txt";
+        final String outFilePath = "/home/shaunak/SG_pursuit_experiments/src/main/java/edu/albany/cs/S2GraphMP/result_2010_single_y.txt";
         int k = 107;//2269
         int s = 16;//
         new TestS2OnCrimesOfChicago(filePath, outFilePath, k, s, 0.0D);
