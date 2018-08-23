@@ -174,10 +174,11 @@ public class HeadApprox {
                 new IllegalArgumentException("bad edge : [" + edge[0] + "," + edge[1] + "]");
             }
         }
-        if (dis.numConnectedComponents != 1) {
+        /*if (dis.numConnectedComponents != 1) {
             new IllegalArgumentException("Error : the graph is not connected ...");
             System.exit(0);
         }
+        */
         if (nodes.size() != pi.size()) {
             new IllegalArgumentException("Error : edges of graph do not have whole nodes  ...");
             System.exit(0);

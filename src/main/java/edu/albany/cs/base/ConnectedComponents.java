@@ -208,6 +208,7 @@ public class ConnectedComponents {
             int[] intV = Arrays.stream(V).mapToInt(Integer::intValue).toArray();
             int[] lcc = this.findLargestConnectedComponet(intV);
             List<Integer> largestConnecteComponent = Arrays.stream(lcc).boxed().collect(Collectors.toList());
+
             for (ArrayList<Integer> arr : this.components) {
                 /*if (count == 0) {
                     count++;
@@ -221,6 +222,7 @@ public class ConnectedComponents {
                 if(count>= largestConnecteComponent.size()){
                     count = 1;
                 }
+                //this.numConnectedComponents--;
             }
             System.out.println(
                     "after update the graph structure, the number of connected components in graph is : "
